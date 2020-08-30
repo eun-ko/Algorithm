@@ -5,9 +5,9 @@ long long mul(long long x, long long y, long long p)
     long long ans = 1;
     while (y > 0)
     {
-        //y가 0보다 클때까지 반복
         if (y % 2 != 0)
         {
+            //지수가 홀수일때는 따로 처리
             ans *= x;
             //ans에 x를 곱해나감
             ans %= p;
@@ -20,6 +20,7 @@ long long mul(long long x, long long y, long long p)
         //y를 2로 나눠줌
     }
     return ans;
+    //m-2승 계산해주는 함수
 }
 int main()
 {
@@ -35,6 +36,7 @@ int main()
     //ans,t1,t2변수 1로 초기화
     for (long long i = 1; i <= n; i++)
     {
+        //이항계수에서 n! 계산과정
         t1 *= i;
         t1 %= p;
         //t1에 n팩토리얼을 계산해나가면서 p로 나눈 나머지 값을 저장함.
@@ -54,10 +56,8 @@ int main()
     }
     long long t3 = mul(t2, p - 2, p);
     // mul함수를 호출하여 t3에 값을 저장한다.
-    t3 %= p;
-    //t3를 p로 나눈 값을 t3에 저장한다.
     ans = t1 * t3;
-    // t1과 t3의 값을 곱한다.
+    // t1과 t3의 값을 곱한다.(A*B의 m-2승)
     ans %= p;
     // 그 값을 p로 나눈 나머지가 결과가 된다.
     printf("%lld", ans);
