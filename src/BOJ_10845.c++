@@ -1,79 +1,49 @@
 #include <stdio.h>
-#include <string.h>
-#define MAX_QUEUE_SIZE 10001
 
-typedef struct
-{
-  int count = 0;
-  int queue[MAX_QUEUE_SIZE];
-  int front = 0;
-  int rear = 0;
-} Queue;
-
-int is_empty(Queue *q)
-{
-  return (q->count == 0) ? 1 : 0;
-}
-void push(Queue *q, int item)
-{
-  q->rear = (q->rear + 1) & MAX_QUEUE_SIZE;
-  q->queue[q->rear] = item;
-  q->count++;
-}
-int size(Queue *q)
-{
-  return q->count;
-}
-int front(Queue *q)
-{
-  if (is_empty(q))
-    return -1;
-  return q->queue[q->front];
-}
-int rear(Queue *q)
-{
-  if (is_empty(q))
-    return -1;
-  return q->queue[q->rear];
-}
-int pop(Queue *q)
-{
-  if (is_empty(q))
-    return -1;
-  else
-  {
-    q->front = (q->front + 1) * MAX_QUEUE_SIZE;
-    q->count--;
-    return q->queue[q->front];
-  }
-}
 int main()
 {
-  Queue q;
-  int n = 0;
-  int push_num = 0;
+  int queue[10001];
   char command[10];
+  int front = 0;
+  int back = 0;
+  int n;
+  int push_num = 0;
   scanf_s("%d", &n);
   for (int i = 0; i < n; i++)
   {
     scanf_s("%s", command);
-    if (!strcmp(command, "push"))
+    if (command[1] == 'u')
     {
+      //push
       scanf_s("%d", &push_num);
-      push(&q, push_num);
+      queue[back++] = push_num;
+      //idx 0부터 삽입
     }
-    else
+    else if (command[1] == 'm')
     {
-      if (!strcmp(command, "pop"))
-        printf("%d\n", pop(&q));
-      if (!strcmp(command, "size"))
-        printf("%d\n", size(&q));
-      if (!strcmp(command, "empty"))
-        printf("%d\n", is_empty(&q));
-      if (!strcmp(command, "front"))
-        printf("%d\n", front(&q));
-      if (!strcmp(command, "back"))
-        printf("%d\n", rear(&q));
+      //empty
+      printf("%d\n", back - front ? 0 : 1);
+    }
+    else if (command[1] == 'o')
+    {
+      //pop
+      printf("%d\n", back - front ? queue[front++] : -1);
+      //front값 출력후 index증가시키기(실제로 값이 배열에서 사라지진 않아서 야매식..)
+    }
+    else if (command[1] == 'r')
+    {
+      //front
+      printf("%d\n", back - front ? queue[front] : -1);
+    }
+    else if (command[1] == 'a')
+    {
+      //back
+      printf("%d\n", back - front ? queue[back - 1] : -1);
+    }
+    else if (command[1] == 'i')
+    {
+      //size
+      printf("%d\n", back - front);
     }
   }
 }
