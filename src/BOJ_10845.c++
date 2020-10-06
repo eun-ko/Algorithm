@@ -1,49 +1,81 @@
 #include <stdio.h>
+#include <string.h>
+#define MAX_QUEUE_SIZE 10001
+
+typedef struct
+{
+  int count = 0;
+  int queue[MAX_QUEUE_SIZE];
+  int front = 0;
+  int rear = 0;
+} Queue;
+
+int empty(Queue *q)
+{
+  return (q->count == 0) ? 1 : 0;
+}
+
+int size(Queue *q)
+{
+  return q->count;
+}
+
+void push(Queue *q, int item)
+{
+  if ((q->rear) == MAX_QUEUE_SIZE)
+    return;
+  q->queue[q->rear++] = item;
+  q->count++;
+}
+
+int pop(Queue *q)
+{
+  if (empty(q))
+    return -1;
+  q->count--;
+  return q->queue[q->front++];
+}
+
+int front(Queue *q)
+{
+  if (empty(q))
+    return -1;
+  return q->queue[q->front];
+}
+
+int back(Queue *q)
+{
+  if (empty(q))
+    return -1;
+  return q->queue[q->rear - 1];
+}
 
 int main()
 {
-  int queue[10001];
-  char command[10];
-  int front = 0;
-  int back = 0;
-  int n;
+  Queue q;
+  int n = 0;
   int push_num = 0;
-  scanf_s("%d", &n);
+  char command[10];
+  scanf("%d", &n);
   for (int i = 0; i < n; i++)
   {
-    scanf_s("%s", command);
-    if (command[1] == 'u')
+    scanf("%s", command);
+
+    if (!strcmp("push", command))
     {
-      //push
-      scanf_s("%d", &push_num);
-      queue[back++] = push_num;
-      //idx 0부터 삽입
+      scanf("%d", &push_num);
+      push(&q, push_num);
     }
-    else if (command[1] == 'm')
-    {
-      //empty
-      printf("%d\n", back - front ? 0 : 1);
-    }
-    else if (command[1] == 'o')
-    {
-      //pop
-      printf("%d\n", back - front ? queue[front++] : -1);
-      //front값 출력후 index증가시키기(실제로 값이 배열에서 사라지진 않아서 야매식..)
-    }
-    else if (command[1] == 'r')
-    {
-      //front
-      printf("%d\n", back - front ? queue[front] : -1);
-    }
-    else if (command[1] == 'a')
-    {
-      //back
-      printf("%d\n", back - front ? queue[back - 1] : -1);
-    }
-    else if (command[1] == 'i')
-    {
-      //size
-      printf("%d\n", back - front);
-    }
+    else if (!strcmp("pop", command))
+      printf("%d\n", pop(&q));
+    else if (!strcmp("size", command))
+      printf("%d\n", size(&q));
+    else if (!strcmp("empty", command))
+      printf("%d\n", empty(&q));
+    else if (!strcmp("front", command))
+      printf("%d\n", front(&q));
+    else if (!strcmp("back", command))
+      printf("%d\n", back(&q));
   }
+  return 0;
 }
