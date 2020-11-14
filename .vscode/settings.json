@@ -4,5 +4,12 @@
 		"cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
 	},
 	"terminal.integrated.shell.windows": "C:\\Windows\\sysnative\\cmd.exe",
-	"code-runner.runInTerminal": true
+	"code-runner.runInTerminal": true,
+	"files.associations": {
+		"queue": "cpp",
+		"deque": "cpp",
+		"vector": "cpp",
+		"xstring": "cpp",
+		"stack": "cpp"
+	}
 }
