@@ -24,7 +24,7 @@ void graph_init(GraphType *g)
     g->adj_list[v] = NULL;
 }
 
-void insert_vertex(GraphType *g, int v)
+void insert_vertex(GraphType *g)
 {
   if ((g->n) + 1 > MAX_VERTICES)
   {
@@ -100,7 +100,7 @@ int main()
 
   for (int i = 0; i < n; i++)
   {
-    insert_vertex(&g, i);
+    insert_vertex(&g);
   }
   for (int i = 0; i < m; i++)
   {
