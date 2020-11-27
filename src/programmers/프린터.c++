@@ -4,41 +4,36 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <algorithm>
+
 using namespace std;
 
 int solution(vector<int> priorities, int location)
 {
-  int answer = 0;
-  //우선 순위 저장할 pq
-  priority_queue<int> pq;
-  //문서 인덱스와 중요도 저장
-  queue<pair<int, int>> q;
-
-  //큐 초기화
+  queue<int> index;        //queue에 index 삽입
+  vector<int> print_order; //정렬된 결과 (pq와 같은 역할)
   for (int i = 0; i < priorities.size(); i++)
   {
-    pq.push(priorities[i]);
-    q.push({i, priorities[i]});
+    index.push(i);
   }
-
-  while (!q.empty())
+  while (!index.empty())
   {
-    int current_index = q.front().first;
-    int current_priority = q.front().second;
-    q.pop();
-
-    if (pq.top() == current_priority) //가장 높은 우선순위와 같을때
+    int currnet_index = index.front(); //front()하고 pop해주기!! (런타임)
+    index.pop();
+    if (priorities[currnet_index] != *max_element(priorities.begin(), priorities.end())) //최고 우선순위와 같은 경우
+    //max_element 주소값반환하니까 *로 값 받기!!!
     {
-      pq.pop();
-      answer++; //출력 시작
-      if (current_index == location)
-        break; //종료
+      index.push(currnet_index);
     }
     else
     {
-      q.push({current_index, current_priority}); //대기열에 넣기
+      print_order.push_back(currnet_index);
+      priorities[currnet_index] = 0; //최고 우선순위 쓴 후에는 0으로 바꿔줘야함
     }
   }
-
-  return answer;
+  for (int i = 0; i < print_order.size(); i++)
+  {
+    if (print_order[i] == location)
+      return i + 1;
+  }
 }
