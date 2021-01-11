@@ -2,7 +2,7 @@
 #include <algorithm>
 using namespace std;
 
-bool visited[11][31];
+bool visited[11][31]; //전역변수 생성 시 0으로 초기화됨
 int answer;
 int n, m, h;
 
@@ -13,10 +13,10 @@ bool ladder_game()
     int current_index = i; //세로선
     for (int j = 1; j <= h; j++)
     {
-      if (visited[current_index][j] == true) //세로선의 오른쪽
-        current_index += 1;
-      else if (visited[current_index - 1][j] == true) //세로선의 왼쪽
-        current_index -= 1;
+      if (visited[current_index][j]) //세로선의 오른쪽
+        current_index++;
+      else if (visited[current_index - 1][j]) //세로선의 왼쪽
+        current_index--;
     }
     if (current_index != i)
       return false; //i번 세로가 i번 세로로 가지 않을때
@@ -41,7 +41,8 @@ void select_line(int index, int cnt)
       {
         visited[j][i] = true;
         select_line(i, cnt + 1);
-        visited[j][i] = false;
+        //백트래킹
+        visited[j][i] = false; //가로선 지우기
       }
     }
   }
