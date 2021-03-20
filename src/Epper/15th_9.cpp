@@ -14,12 +14,12 @@ int solution(int n[],int r[][100],int goal,int N,int R){
     for(int i=0;i<R;i++){
         int u=r[i][0];
         int v=r[i][1];
-        adj[u][v]=1;
+        adj[u][v]=1;//u-v정점 연결되어있음
         indegree[v]++;
     }//입력 값으로 연결여부와 내차수 초기화 
 
     for(int i=1;i<=N;i++){
-        if(indegree[i]==0){//선행 공정이 없는(indegree==1) 공정들을 큐에 삽입
+        if(indegree[i]==0){//선행 공정이 없는(indegree==0) 공정들을 큐에 삽입
             time[i]=n[i-1];//인덱스 통일 (n의 0번 인덱스에 1번 공정 소요시간이 저장됨-> 그걸 time의 1번 인덱스에 저장)
             q.push(i);
         }
@@ -29,9 +29,9 @@ int solution(int n[],int r[][100],int goal,int N,int R){
         int p=q.front();
         q.pop();
         for(int i=1;i<=N;i++){
-            if(adj[p][i]==1){
-                time[i]=max(time[i],time[p]+n[i-1]);
-                indegree[i]--;
+            if(adj[p][i]==1){//p번째 공정과 i번째 공정이 연결되어있을경우
+                time[i]=max(time[i],time[p]+n[i-1]);//소요시간 더큰걸로 업데이트
+                indegree[i]--;//진입차수 재계산
                 if(indegree[i]==0) q.push(i);
             }
         }
